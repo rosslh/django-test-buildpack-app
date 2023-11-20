@@ -2,10 +2,11 @@
 
 The app is based on the official [Writing your first Django app tutorial](https://docs.djangoproject.com/en/4.2/intro/tutorial01/).
 You can see it [deployed on Toolforge](https://django-test.toolforge.org/polls/).
+For a detailed guide on how to deploy a Django application on Toolforge, please refer to [this tutorial on Wikitech](https://wikitech.wikimedia.org/wiki/Help:Toolforge/Build_Service/My_first_Buildpack_Django_tool)
 
 For simplicity, this app uses a sqlite database.
 In production, you would want to configure and use ToolsDB.
-Rememeber to change the settings in mysite/settings.py
+Remember to change the settings in `mysite/settings.py`
 
 ## Development environment
 
