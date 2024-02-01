@@ -54,6 +54,7 @@ else:
 # Application definition
 
 INSTALLED_APPS = [
+    # Use WhiteNoise's runserver implementation instead of the Django default, for dev-prod parity.
     'whitenoise.runserver_nostatic',
     'polls.apps.PollsConfig',
     'django.contrib.admin',
@@ -66,6 +67,10 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # Django doesn't support serving static assets in a production-ready way, so we use the
+    # WhiteNoise package to do so instead. The WhiteNoise middleware must be listed
+    # after Django's `SecurityMiddleware` so that security redirects are still performed.
+    # See: https://whitenoise.readthedocs.io
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -142,6 +147,18 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
+
+STORAGES = {
+    # Enable WhiteNoise's GZip and Brotli compression of static assets:
+    # https://whitenoise.readthedocs.io/en/latest/django.html#add-compression-and-caching-support
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
+# Don't store the original (un-hashed filename) version of static files, to reduce slug size:
+# https://whitenoise.readthedocs.io/en/latest/django.html#WHITENOISE_KEEP_ONLY_HASHED_FILES
+WHITENOISE_KEEP_ONLY_HASHED_FILES = True
 
 
 # Default primary key field type
