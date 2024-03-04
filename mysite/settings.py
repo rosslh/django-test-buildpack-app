@@ -37,6 +37,10 @@ SECRET_KEY = os.environ.get(
     default=secrets.token_urlsafe(nbytes=64),
 )
 
+CSRF_TRUSTED_ORIGINS = ['https://django-test.toolforge.org']
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
 IN_PROD = int(os.environ.get("PROD", 0))
 
 # SECURITY WARNING: don't run with debug turned on in production!
