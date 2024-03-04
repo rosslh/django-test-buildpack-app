@@ -38,8 +38,8 @@ SECRET_KEY = os.environ.get(
 )
 
 CSRF_TRUSTED_ORIGINS = ['https://django-test.toolforge.org']
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
 
 IN_PROD = int(os.environ.get("PROD", 0))
 
