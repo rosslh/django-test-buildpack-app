@@ -159,6 +159,19 @@ class Development(Base):
     }
 }
 
+
+class Staging(Base):
+    # SECURITY WARNING: don't run with debug turned on in production!
+    DEBUG = False
+    ALLOWED_HOSTS = ['.toolforge.org',]
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': Base.TOOL_DATA_DIR / 'db.sqlite3',
+    }
+}
+
+
 class Production(Base):
 # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False
