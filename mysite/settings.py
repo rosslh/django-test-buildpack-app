@@ -179,7 +179,7 @@ class Production(Base):
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 's55463__polls',
+        'NAME': os.environ.get("DB_USER"),
         "USER": os.environ.get("TOOL_TOOLSDB_USER"),
         "PASSWORD": os.environ.get("TOOL_TOOLSDB_PASSWORD"),
         'HOST': 'tools.db.svc.wikimedia.cloud',
