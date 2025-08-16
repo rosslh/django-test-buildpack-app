@@ -48,12 +48,6 @@ class Base(Configuration):
     INSTALLED_APPS = [
         # Use WhiteNoise's runserver implementation instead of the Django default, for dev-prod parity.
         'whitenoise.runserver_nostatic',
-        'polls.apps.PollsConfig',
-        'django.contrib.admin',
-        'django.contrib.auth',
-        'django.contrib.contenttypes',
-        'django.contrib.sessions',
-        'django.contrib.messages',
         'django.contrib.staticfiles',
     ]
 
@@ -64,11 +58,7 @@ class Base(Configuration):
         # after Django's `SecurityMiddleware` so that security redirects are still performed.
         # See: https://whitenoise.readthedocs.io
         'whitenoise.middleware.WhiteNoiseMiddleware',
-        'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.common.CommonMiddleware',
-        'django.middleware.csrf.CsrfViewMiddleware',
-        'django.contrib.auth.middleware.AuthenticationMiddleware',
-        'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
     ]
 
@@ -83,8 +73,6 @@ class Base(Configuration):
                 'context_processors': [
                     'django.template.context_processors.debug',
                     'django.template.context_processors.request',
-                    'django.contrib.auth.context_processors.auth',
-                    'django.contrib.messages.context_processors.messages',
                 ],
             },
         },
@@ -92,23 +80,7 @@ class Base(Configuration):
 
     WSGI_APPLICATION = 'mysite.wsgi.application'
 
-    # Password validation
-    # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
-
-    AUTH_PASSWORD_VALIDATORS = [
-        {
-            'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-        },
-        {
-            'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-        },
-        {
-            'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-        },
-        {
-            'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-        },
-    ]
+    # No authentication needed for this API
 
 
     # Internationalization
@@ -141,54 +113,24 @@ class Base(Configuration):
     WHITENOISE_KEEP_ONLY_HASHED_FILES = True
 
 
-    # Default primary key field type
-    # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-
-    DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+    # No database configuration needed
 
 
 class Development(Base):
     DEBUG = True
     ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]']
-    # Database
-    # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': Base.TOOL_DATA_DIR / 'db.sqlite3',
-    }
-}
 
 
 class Staging(Base):
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False
     ALLOWED_HOSTS = ['.toolforge.org',]
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': Base.TOOL_DATA_DIR / 'db.sqlite3',
-    }
-}
 
 
 class Production(Base):
-# SECURITY WARNING: don't run with debug turned on in production!
+    # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False
     ALLOWED_HOSTS = ['.toolforge.org',]
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get("DB_USER"),
-        "USER": os.environ.get("TOOL_TOOLSDB_USER"),
-        "PASSWORD": os.environ.get("TOOL_TOOLSDB_PASSWORD"),
-        'HOST': 'tools.db.svc.wikimedia.cloud',
-        'OPTIONS': {
-           'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-           'charset': 'utf8mb4',
-        },
-    }
-}
 
 
 
