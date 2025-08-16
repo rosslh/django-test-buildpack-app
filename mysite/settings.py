@@ -40,7 +40,7 @@ class Base(Configuration):
         default=secrets.token_urlsafe(nbytes=64),
     )
 
-    CSRF_TRUSTED_ORIGINS = ['https://django-test.toolforge.org']
+    CSRF_TRUSTED_ORIGINS = ['https://editengine.toolforge.org', 'https://django-test.toolforge.org']
     # CSRF_COOKIE_SECURE = True
     # SESSION_COOKIE_SECURE = True
 
