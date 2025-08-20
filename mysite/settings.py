@@ -48,7 +48,12 @@ class Base(Configuration):
     INSTALLED_APPS = [
         # Use WhiteNoise's runserver implementation instead of the Django default, for dev-prod parity.
         'whitenoise.runserver_nostatic',
+        'django.contrib.contenttypes',  # Required by DRF
+        'django.contrib.auth',  # Required by DRF
         'django.contrib.staticfiles',
+        'rest_framework',
+        'drf_spectacular',
+        'api',
     ]
 
     MIDDLEWARE = [
@@ -114,6 +119,25 @@ class Base(Configuration):
 
 
     # No database configuration needed
+    
+    # REST Framework configuration
+    REST_FRAMEWORK = {
+        'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+        'DEFAULT_RENDERER_CLASSES': [
+            'rest_framework.renderers.JSONRenderer',
+        ],
+        'DEFAULT_PARSER_CLASSES': [
+            'rest_framework.parsers.JSONParser',
+        ],
+    }
+    
+    # Spectacular settings for API documentation
+    SPECTACULAR_SETTINGS = {
+        'TITLE': 'EditEngine API',
+        'DESCRIPTION': 'API for Wikipedia article editing',
+        'VERSION': '1.0.0',
+        'SERVE_INCLUDE_SCHEMA': False,
+    }
 
 
 class Development(Base):
