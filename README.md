@@ -6,7 +6,7 @@ For a detailed guide on how to deploy a Django application on Toolforge, please 
 
 For simplicity, this app uses a sqlite database.
 In production, you would want to configure and use ToolsDB.
-Remember to change the settings in `mysite/settings.py`
+Remember to change the settings in `EditEngine/settings.py`
 
 ## Development environment
 

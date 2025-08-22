@@ -1,1 +1,1 @@
-web: gunicorn mysite.wsgi --bind 0.0.0.0 --access-logfile - --error-logfile -
+web: gunicorn EditEngine.wsgi --bind 0.0.0.0 --access-logfile - --error-logfile -

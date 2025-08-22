@@ -8,6 +8,9 @@ echo "🚀 Deploying $TOOL_NAME..."
 
 ssh -i ~/.ssh/Toolforge rosslh@login.toolforge.org "become editengine bash -c '
   set -euo pipefail;
+  echo \"⚙️  Setting environment variables...\";
+  toolforge envvars create DJANGO_SETTINGS_MODULE \"EditEngine.settings\";
+  toolforge envvars create DJANGO_CONFIGURATION \"Production\";
   echo \"🛑 Stopping service...\";
   toolforge webservice buildservice stop --mount all || echo \"ℹ️  Service was not running\";
   echo \"🔨 Starting build...\";

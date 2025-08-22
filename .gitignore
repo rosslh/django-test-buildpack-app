@@ -182,6 +182,41 @@ Icon
 
 # Django
 /static
+/staticfiles/
+/media/
+rejected_edits.log
+/main.py
+
+# Linting and code quality tools
+.flake8_cache/
+.ruff_cache/
+.htmlcov
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.claude/
+CLAUDE.md
+posts/
+backlog/
+
+# Node.js (if frontend is added later)
+node_modules
+dist
+dist-ssr
+*.local
+logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
 
 # Thumbnails
