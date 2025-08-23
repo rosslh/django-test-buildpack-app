@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import configparser
 import os
 import secrets
 import sys
@@ -219,11 +220,71 @@ class Staging(Base):
 
 
 class Production(Base):
-    # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False
-    ALLOWED_HOSTS = [
-        ".toolforge.org",
-    ]
+    ALLOWED_HOSTS = [".toolforge.org"]
+
+    def __init__(self):
+        print(f"[DEBUG] Loading Production configuration")
+        print(f"[DEBUG] DJANGO_CONFIGURATION env var: {os.environ.get('DJANGO_CONFIGURATION')}")
+        super().__init__()
+
+    def get_database_config(self):
+        # First try environment variables (for jobs/builds)
+        db_user = os.environ.get('TOOLFORGE_CREDENTIAL_USER')
+        db_password = os.environ.get('TOOLFORGE_CREDENTIAL_PASSWORD')
+
+        # If not in env, try to read from replica.my.cnf
+        if not db_user:
+            possible_paths = [
+                os.path.expanduser('~/replica.my.cnf'),
+                '/data/project/editengine/replica.my.cnf',
+                '/home/tools.editengine/replica.my.cnf',
+            ]
+
+            replica_path = None
+            for path in possible_paths:
+                if os.path.exists(path):
+                    replica_path = path
+                    break
+
+            if replica_path:
+                config = configparser.ConfigParser()
+                config.read(replica_path)
+                try:
+                    db_user = config.get('client', 'user').strip()
+                    db_password = config.get('client', 'password').strip()
+                except (configparser.NoSectionError, configparser.NoOptionError) as e:
+                    print(f"[ERROR] Failed to parse replica.my.cnf: {e}")
+                    # Fallback to prevent total failure
+                    db_user = 'root'
+                    db_password = ''
+            else:
+                print("[WARNING] No replica.my.cnf found, using fallback credentials")
+                db_user = 'root'
+                db_password = ''
+
+        database_config = {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': f'{db_user}__editengine',
+            'USER': db_user,
+            'PASSWORD': db_password,
+            'HOST': 'tools.db.svc.wikimedia.cloud',
+            'PORT': '3306',
+            'OPTIONS': {
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                'charset': 'utf8mb4',
+                'connect_timeout': 60,
+            },
+            'CONN_MAX_AGE': 300,
+        }
+
+        return database_config
+
+    @property
+    def DATABASES(self):
+        return {
+            'default': self.get_database_config()
+        }
 
     # Production Celery Configuration with Redis
     CELERY_TASK_ALWAYS_EAGER = False  # Use async tasks in production

@@ -51,7 +51,7 @@ def main():
         return
 
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "EditEngine.settings")
-    os.environ.setdefault("DJANGO_CONFIGURATION", "Development")
+    os.environ.setdefault("DJANGO_CONFIGURATION", "Production")
     try:
         from configurations.management import execute_from_command_line
     except ImportError as exc:
