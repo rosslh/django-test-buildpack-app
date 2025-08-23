@@ -40,7 +40,7 @@ ssh -i ~/.ssh/Toolforge rosslh@login.toolforge.org "become editengine bash" << '
   toolforge envvars create DJANGO_CONFIGURATION "Production" || true
   toolforge envvars create TOOLFORGE_CREDENTIAL_USER "$CREDENTIAL_USER" || true
   toolforge envvars create TOOLFORGE_CREDENTIAL_PASSWORD "$CREDENTIAL_PASSWORD" || true
-  toolforge envvars create REDIS_HOST "tools-redis" || true
+  toolforge envvars create REDIS_HOST "redis.svc.tools.eqiad1.wikimedia.cloud" || true
   toolforge envvars create REDIS_PORT "6379" || true
   toolforge envvars create REDIS_DB "0" || true
   toolforge envvars create REDIS_PASSWORD "" || true
@@ -51,9 +51,24 @@ ssh -i ~/.ssh/Toolforge rosslh@login.toolforge.org "become editengine bash" << '
   toolforge envvars create CELERY_PARAGRAPH_BATCH_SIZE "2" || true
   toolforge envvars create CELERY_WORKER_POOL "prefork" || true
   toolforge envvars create CELERY_MAX_TASKS_PER_CHILD "50" || true
+  toolforge envvars create CELERY_DEFAULT_QUEUE "editengine_$(date +%s)" || true
 
-  echo "🛑 Stopping web service..."
-  toolforge webservice buildservice stop --mount all || echo "Service was not running"
+  echo "🛑 Stopping existing services..."
+  toolforge webservice buildservice stop --mount all || echo "Web service was not running"
+
+  echo "🚀 Starting Redis service (if not already running)..."
+  if ! toolforge jobs list | grep -q "redis"; then
+    toolforge jobs run redis \
+      --image tool-containers/redis:latest \
+      --command server \
+      --continuous \
+      --emails none \
+      --port 6379
+    echo "✅ Redis service started"
+    sleep 10  # Wait for Redis to be ready
+  else
+    echo "✅ Redis service already running"
+  fi
 
   echo "🛑 Stopping Celery workers..."
   if toolforge jobs list | grep -q "celery-worker"; then
@@ -85,7 +100,7 @@ ssh -i ~/.ssh/Toolforge rosslh@login.toolforge.org "become editengine bash" << '
   echo "▶️ Starting Celery workers..."
   toolforge jobs run celery-worker \
     --image tool-editengine/tool-editengine:latest \
-    --command "celery-worker" \
+    --command "run-celery" \
     --continuous \
     --mem 2Gi \
     --cpu 1 \
@@ -94,7 +109,7 @@ ssh -i ~/.ssh/Toolforge rosslh@login.toolforge.org "become editengine bash" << '
   echo "▶️ Starting Celery beat scheduler..."
   toolforge jobs run celery-beat \
     --image tool-editengine/tool-editengine:latest \
-    --command "celery-beat" \
+    --command "run-celery-beat" \
     --continuous \
     --mem 512Mi
 

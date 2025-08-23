@@ -186,6 +186,7 @@ class Base(Configuration):
     CELERY_ACCEPT_CONTENT = ["json"]
     CELERY_TASK_SERIALIZER = "json"
     CELERY_RESULT_SERIALIZER = "json"
+    CELERY_TIMEZONE = "UTC"
 
     # Celery performance settings from environment variables
     CELERY_WORKER_CONCURRENCY = int(os.environ.get("CELERY_WORKER_CONCURRENCY", "1"))
@@ -195,7 +196,7 @@ class Base(Configuration):
     CELERY_MAX_TASKS_PER_CHILD = int(os.environ.get("CELERY_MAX_TASKS_PER_CHILD", "10"))
 
     # Redis Configuration (when using Redis broker/backend)
-    REDIS_HOST = os.environ.get("REDIS_HOST", "localhost")
+    REDIS_HOST = os.environ.get("REDIS_HOST", "redis.svc.tools.eqiad1.wikimedia.cloud")
     REDIS_PORT = int(os.environ.get("REDIS_PORT", "6379"))
     REDIS_DB = int(os.environ.get("REDIS_DB", "0"))
     REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD", "")
@@ -291,7 +292,7 @@ class Production(Base):
     CELERY_TASK_EAGER_PROPAGATES = False
 
     # Unique queue name to prevent conflicts on shared Redis
-    CELERY_DEFAULT_QUEUE = "editengine_" + secrets.token_hex(8)
+    CELERY_DEFAULT_QUEUE = os.environ.get("CELERY_DEFAULT_QUEUE", "editengine_" + secrets.token_hex(8))
 
     @property
     def CELERY_BROKER_URL(self):
