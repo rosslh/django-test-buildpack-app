@@ -25,7 +25,14 @@ from services.utils.wikipedia_api import WikipediaAPI
 
 
 @shared_task(bind=True)
-def process_edit_task_batched(self, editing_mode, encrypted_llm_config, edit_task_id, batch_size=DEFAULT_PARAGRAPH_BATCH_SIZE, **kwargs):
+def process_edit_task_batched(
+    self,
+    editing_mode,
+    encrypted_llm_config,
+    edit_task_id,
+    batch_size=DEFAULT_PARAGRAPH_BATCH_SIZE,
+    **kwargs,
+):
     """Process an editing task with batched paragraph processing to reduce task overhead.
 
     Args:
@@ -89,7 +96,11 @@ def process_edit_task_batched(self, editing_mode, encrypted_llm_config, edit_tas
 
         paragraph_results = _run_async_safely(
             editor.edit_article_section_structured_batched(
-                article_title, section_title, "en", enhanced_progress_callback, batch_size
+                article_title,
+                section_title,
+                "en",
+                enhanced_progress_callback,
+                batch_size,
             )
         )
 

@@ -1,13 +1,4 @@
-import os
-
-import django
-from django.conf import settings
 from django.test import TestCase
-
-# Configure Django settings before importing EditView
-if not settings.configured:
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "EditEngine.settings")
-    django.setup()
 
 from api.views.edit_views import EditView, ResultView, SectionHeadingsView
 
@@ -19,6 +10,7 @@ class TestDjangoUrls(TestCase):
         """Test that admin URL resolves correctly."""
         from EditEngine.urls import urlpatterns
 
+        # We expect 8 URL patterns: health/, admin/, api/, api/schema/, api/docs/, api/redoc/, healthz/, ''
         self.assertEqual(len(urlpatterns), 8)
 
         # Test admin URL pattern (health check is now at index 0)

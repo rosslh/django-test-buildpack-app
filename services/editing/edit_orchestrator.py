@@ -286,7 +286,9 @@ class EditOrchestrator:
                     )
         return edit_result_map
 
-    async def _execute_edit_tasks_batched(self, edit_tasks, paragraph_processor, batch_size: int):
+    async def _execute_edit_tasks_batched(
+        self, edit_tasks, paragraph_processor, batch_size: int
+    ):
         """Execute edit tasks in batches and return a map of results."""
         edit_result_map: dict = {}
         if not edit_tasks:
@@ -294,15 +296,18 @@ class EditOrchestrator:
 
         # Split tasks into batches
         task_batches = [
-            edit_tasks[i:i + batch_size]
+            edit_tasks[i : i + batch_size]
             for i in range(0, len(edit_tasks), batch_size)
         ]
 
         try:
             # Process all batches concurrently
             batch_results = await asyncio.gather(
-                *[self._process_edit_tasks_batch(batch, paragraph_processor) for batch in task_batches],
-                return_exceptions=True
+                *[
+                    self._process_edit_tasks_batch(batch, paragraph_processor)
+                    for batch in task_batches
+                ],
+                return_exceptions=True,
             )
 
             # Combine results from all batches
@@ -337,8 +342,7 @@ class EditOrchestrator:
         """Process a single batch of edit tasks."""
         # Create a coroutine for each task in the batch
         coroutines = [
-            self._process_single_task(task, paragraph_processor)
-            for task in batch_tasks
+            self._process_single_task(task, paragraph_processor) for task in batch_tasks
         ]
 
         results = await asyncio.gather(*coroutines, return_exceptions=True)
@@ -443,8 +447,7 @@ class EditOrchestrator:
         """Process a list of edit tasks."""
         # Create a coroutine for each task
         coroutines = [
-            self._process_single_task(task, paragraph_processor)
-            for task in tasks
+            self._process_single_task(task, paragraph_processor) for task in tasks
         ]
 
         results = await asyncio.gather(*coroutines, return_exceptions=True)
@@ -457,7 +460,6 @@ class EditOrchestrator:
             else:
                 processed_results.append(result)
         return processed_results
-
 
     async def _process_single_task(
         self, task: EditTask, paragraph_processor: IParagraphProcessor

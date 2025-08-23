@@ -1275,12 +1275,15 @@ class TestEditOrchestrator:
                 self.orchestrator, "_analyze_and_create_edit_tasks"
             ) as mock_analyze:
                 mock_analyze.return_value = (tasks, [])
-                with patch.object(
-                    self.orchestrator, "_display_summary"
-                ):
+                with patch.object(self.orchestrator, "_display_summary"):
                     # Execute
-                    results = await self.orchestrator.orchestrate_edit_structured_batched(
-                        text, paragraph_processor, enhanced_progress_callback, batch_size
+                    results = (
+                        await self.orchestrator.orchestrate_edit_structured_batched(
+                            text,
+                            paragraph_processor,
+                            enhanced_progress_callback,
+                            batch_size,
+                        )
                     )
 
         # Verify
@@ -1339,7 +1342,11 @@ class TestEditOrchestrator:
 
             # Execute
             results = await self.orchestrator._process_and_create_results_batched(
-                edit_tasks, skipped_items, document_items, paragraph_processor, batch_size
+                edit_tasks,
+                skipped_items,
+                document_items,
+                paragraph_processor,
+                batch_size,
             )
 
         # Verify

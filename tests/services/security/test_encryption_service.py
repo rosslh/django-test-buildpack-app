@@ -16,7 +16,9 @@ class TestEncryptionService:
     def test_init_missing_key_raises_error(self):
         """Test that missing encryption key raises ValueError."""
         with patch.dict(os.environ, {}, clear=True):
-            with pytest.raises(ValueError, match="CELERY_ENCRYPTION_KEY environment variable not set"):
+            with pytest.raises(
+                ValueError, match="CELERY_ENCRYPTION_KEY environment variable not set"
+            ):
                 EncryptionService()
 
     def test_init_with_base64_key(self):
@@ -42,7 +44,7 @@ class TestEncryptionService:
             test_data = {
                 "provider": "openai",
                 "api_key": "sk-test-key-123",
-                "model": "gpt-4"
+                "model": "gpt-4",
             }
 
             # Encrypt the data
@@ -69,12 +71,9 @@ class TestEncryptionService:
                 "config": {
                     "temperature": 0.0,
                     "max_tokens": 4096,
-                    "options": ["streaming", "safety"]
+                    "options": ["streaming", "safety"],
                 },
-                "metadata": {
-                    "user_id": 12345,
-                    "timestamp": "2025-07-26T10:30:00Z"
-                }
+                "metadata": {"user_id": 12345, "timestamp": "2025-07-26T10:30:00Z"},
             }
 
             encrypted = service.encrypt_dict(test_data)
@@ -109,6 +108,7 @@ class TestEncryptionService:
             service = EncryptionService()
 
             from cryptography.fernet import InvalidToken
+
             with pytest.raises(InvalidToken):
                 service.decrypt_dict("invalid-encrypted-data")
 
@@ -133,7 +133,7 @@ class TestEncryptionService:
             test_data = {
                 "api_key": "sk-test_key!@#$%^&*()",
                 "provider": "openai",
-                "description": "Test with émojis 🚀 and üñíçödé"
+                "description": "Test with émojis 🚀 and üñíçödé",
             }
 
             encrypted = service.encrypt_dict(test_data)
@@ -141,4 +141,3 @@ class TestEncryptionService:
 
             assert decrypted == test_data
             assert "🚀" in decrypted["description"]
-

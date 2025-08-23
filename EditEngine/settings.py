@@ -30,13 +30,14 @@ if "test" in sys.argv or "pytest" in sys.modules:
 else:
     load_dotenv()
 
+
 class Base(Configuration):
     # Build paths inside the project like this: BASE_DIR / 'subdir'.
     BASE_DIR = Path(__file__).resolve().parent.parent
 
     # The tool's home dir on Toolforge. This dir is available to the application at runtime, but not during the build.
-    TOOL_DATA_DIR = Path(os.environ.get('TOOL_DATA_DIR', BASE_DIR))
- 
+    TOOL_DATA_DIR = Path(os.environ.get("TOOL_DATA_DIR", BASE_DIR))
+
     # Quick-start development settings - unsuitable for production
     # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -53,81 +54,82 @@ class Base(Configuration):
         default=secrets.token_urlsafe(nbytes=64),
     )
 
-    CSRF_TRUSTED_ORIGINS = ['https://editengine.toolforge.org', 'https://django-test.toolforge.org']
+    CSRF_TRUSTED_ORIGINS = [
+        "https://editengine.toolforge.org",
+        "https://django-test.toolforge.org",
+    ]
     # CSRF_COOKIE_SECURE = True
     # SESSION_COOKIE_SECURE = True
 
     # Application definition
     INSTALLED_APPS = [
         # Use WhiteNoise's runserver implementation instead of the Django default, for dev-prod parity.
-        'whitenoise.runserver_nostatic',
-        'django.contrib.contenttypes',  # Required by DRF
-        'django.contrib.auth',  # Required by DRF
-        'django.contrib.admin',  # Required for admin interface
-        'django.contrib.sessions',  # Required by admin
-        'django.contrib.messages',  # Required by admin
-        'django.contrib.staticfiles',
-        'rest_framework',
-        'drf_spectacular',
-        'api',
-        'services',
-        'data',
+        "whitenoise.runserver_nostatic",
+        "django.contrib.contenttypes",  # Required by DRF
+        "django.contrib.auth",  # Required by DRF
+        "django.contrib.admin",  # Required for admin interface
+        "django.contrib.sessions",  # Required by admin
+        "django.contrib.messages",  # Required by admin
+        "django.contrib.staticfiles",
+        "rest_framework",
+        "drf_spectacular",
+        "api",
+        "services",
+        "data",
     ]
 
     MIDDLEWARE = [
-        'django.middleware.security.SecurityMiddleware',
-        'django.contrib.sessions.middleware.SessionMiddleware',  # Required by admin
+        "django.middleware.security.SecurityMiddleware",
+        "django.contrib.sessions.middleware.SessionMiddleware",  # Required by admin
         # Django doesn't support serving static assets in a production-ready way, so we use the
         # WhiteNoise package to do so instead. The WhiteNoise middleware must be listed
         # after Django's `SecurityMiddleware` so that security redirects are still performed.
         # See: https://whitenoise.readthedocs.io
-        'whitenoise.middleware.WhiteNoiseMiddleware',
-        'django.middleware.common.CommonMiddleware',
-        'django.middleware.csrf.CsrfViewMiddleware',  # Required by admin
-        'django.contrib.auth.middleware.AuthenticationMiddleware',  # Required by admin
-        'django.contrib.messages.middleware.MessageMiddleware',  # Required by admin
-        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        "whitenoise.middleware.WhiteNoiseMiddleware",
+        "django.middleware.common.CommonMiddleware",
+        "django.middleware.csrf.CsrfViewMiddleware",  # Required by admin
+        "django.contrib.auth.middleware.AuthenticationMiddleware",  # Required by admin
+        "django.contrib.messages.middleware.MessageMiddleware",  # Required by admin
+        "django.middleware.clickjacking.XFrameOptionsMiddleware",
     ]
 
-    ROOT_URLCONF = 'EditEngine.urls'
+    ROOT_URLCONF = "EditEngine.urls"
 
     TEMPLATES = [
         {
-            'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': [BASE_DIR / "templates"],
-            'APP_DIRS': True,
-            'OPTIONS': {
-                'context_processors': [
-                    'django.template.context_processors.debug',
-                    'django.template.context_processors.request',
-                    'django.contrib.auth.context_processors.auth',  # Required by admin
-                    'django.contrib.messages.context_processors.messages',  # Required by admin
+            "BACKEND": "django.template.backends.django.DjangoTemplates",
+            "DIRS": [BASE_DIR / "templates"],
+            "APP_DIRS": True,
+            "OPTIONS": {
+                "context_processors": [
+                    "django.template.context_processors.debug",
+                    "django.template.context_processors.request",
+                    "django.contrib.auth.context_processors.auth",  # Required by admin
+                    "django.contrib.messages.context_processors.messages",  # Required by admin
                 ],
             },
         },
     ]
 
-    WSGI_APPLICATION = 'EditEngine.wsgi.application'
+    WSGI_APPLICATION = "EditEngine.wsgi.application"
 
     # No authentication needed for this API
 
-
     # Internationalization
     # https://docs.djangoproject.com/en/4.2/topics/i18n/
-    LANGUAGE_CODE = 'en-us'
+    LANGUAGE_CODE = "en-us"
 
-    TIME_ZONE = 'Europe/Paris'
+    TIME_ZONE = "Europe/Paris"
 
     USE_I18N = True
 
     USE_TZ = True
 
-
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-    STATIC_URL = '/static/'
-    STATIC_ROOT = BASE_DIR / 'static'
+    STATIC_URL = "/static/"
+    STATIC_ROOT = BASE_DIR / "static"
 
     STORAGES = {
         # Enable WhiteNoise's GZip and Brotli compression of static assets:
@@ -141,77 +143,99 @@ class Base(Configuration):
     # https://whitenoise.readthedocs.io/en/latest/django.html#WHITENOISE_KEEP_ONLY_HASHED_FILES
     WHITENOISE_KEEP_ONLY_HASHED_FILES = True
 
-
     # Database
     # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
         }
     }
-    
+
     # Default primary key field type
     # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-    DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-    
+    DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
     # REST Framework configuration
     REST_FRAMEWORK = {
-        'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-        'DEFAULT_RENDERER_CLASSES': [
-            'rest_framework.renderers.JSONRenderer',
+        "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+        "DEFAULT_RENDERER_CLASSES": [
+            "rest_framework.renderers.JSONRenderer",
         ],
-        'DEFAULT_PARSER_CLASSES': [
-            'rest_framework.parsers.JSONParser',
+        "DEFAULT_PARSER_CLASSES": [
+            "rest_framework.parsers.JSONParser",
         ],
-        'EXCEPTION_HANDLER': 'api.exceptions.custom_exception_handler',
+        "EXCEPTION_HANDLER": "api.exceptions.custom_exception_handler",
     }
-    
+
     # Spectacular settings for API documentation
     SPECTACULAR_SETTINGS = {
-        'TITLE': 'EditEngine API',
-        'DESCRIPTION': 'API for Wikipedia article editing',
-        'VERSION': '1.0.0',
-        'SERVE_INCLUDE_SCHEMA': False,
+        "TITLE": "EditEngine API",
+        "DESCRIPTION": "API for Wikipedia article editing",
+        "VERSION": "1.0.0",
+        "SERVE_INCLUDE_SCHEMA": False,
     }
-    
+
     # Celery Configuration
-    # For test environment, use eager mode to run tasks synchronously
-    CELERY_TASK_ALWAYS_EAGER = True  # Run tasks synchronously for tests
+    # Default configuration for development/testing
+    CELERY_TASK_ALWAYS_EAGER = True  # Run tasks synchronously by default
     CELERY_TASK_EAGER_PROPAGATES = True  # Propagate exceptions in eager mode
-    CELERY_BROKER_URL = 'memory://'  # In-memory broker for tests
+    CELERY_BROKER_URL = "memory://"  # In-memory broker for tests
     CELERY_RESULT_BACKEND = None  # No result backend needed
     CELERY_ACCEPT_CONTENT = ["json"]
     CELERY_TASK_SERIALIZER = "json"
     CELERY_RESULT_SERIALIZER = "json"
-    
-    # Celery performance settings
+
+    # Celery performance settings from environment variables
     CELERY_WORKER_CONCURRENCY = int(os.environ.get("CELERY_WORKER_CONCURRENCY", "1"))
-    CELERY_PARAGRAPH_BATCH_SIZE = int(os.environ.get("CELERY_PARAGRAPH_BATCH_SIZE", "2"))
+    CELERY_PARAGRAPH_BATCH_SIZE = int(
+        os.environ.get("CELERY_PARAGRAPH_BATCH_SIZE", "2")
+    )
     CELERY_MAX_TASKS_PER_CHILD = int(os.environ.get("CELERY_MAX_TASKS_PER_CHILD", "10"))
+
+    # Redis Configuration (when using Redis broker/backend)
+    REDIS_HOST = os.environ.get("REDIS_HOST", "localhost")
+    REDIS_PORT = int(os.environ.get("REDIS_PORT", "6379"))
+    REDIS_DB = int(os.environ.get("REDIS_DB", "0"))
+    REDIS_PASSWORD = os.environ.get("REDIS_PASSWORD", "")
+
+    def get_redis_url(self):
+        """Build Redis URL from environment variables."""
+        auth = f":{self.REDIS_PASSWORD}@" if self.REDIS_PASSWORD else ""
+        return f"redis://{auth}{self.REDIS_HOST}:{self.REDIS_PORT}/{self.REDIS_DB}"
 
 
 class Development(Base):
     DEBUG = True
-    ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]', '.toolforge.org']
+    ALLOWED_HOSTS = [".localhost", "127.0.0.1", "[::1]", ".toolforge.org"]
 
 
 class Staging(Base):
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False
-    ALLOWED_HOSTS = ['.toolforge.org',]
+    ALLOWED_HOSTS = [
+        ".toolforge.org",
+    ]
 
 
 class Production(Base):
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = False
-    ALLOWED_HOSTS = ['.toolforge.org',]
+    ALLOWED_HOSTS = [
+        ".toolforge.org",
+    ]
 
+    # Production Celery Configuration with Redis
+    CELERY_TASK_ALWAYS_EAGER = False  # Use async tasks in production
+    CELERY_TASK_EAGER_PROPAGATES = False
 
+    # Unique queue name to prevent conflicts on shared Redis
+    CELERY_DEFAULT_QUEUE = "editengine_" + secrets.token_hex(8)
 
+    @property
+    def CELERY_BROKER_URL(self):
+        return os.environ.get("REDIS_URL", self.get_redis_url())
 
-
-
-
-
-
+    @property
+    def CELERY_RESULT_BACKEND(self):
+        return os.environ.get("REDIS_URL", self.get_redis_url())

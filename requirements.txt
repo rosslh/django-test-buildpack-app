@@ -30,3 +30,4 @@ syrupy==4.6.1
 coverage==7.8.2
 python-dotenv==1.1.0
 django-ratelimit>=4.0.0
+honcho>=1.1.0

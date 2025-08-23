@@ -87,7 +87,9 @@ class EditTaskService:
         encrypted_config = encryption_service.encrypt_dict(llm_config)
 
         celery_task = process_edit_task_batched.delay(
-            editing_mode=editing_mode, encrypted_llm_config=encrypted_config, **task_kwargs
+            editing_mode=editing_mode,
+            encrypted_llm_config=encrypted_config,
+            **task_kwargs,
         )
         return celery_task.id
 

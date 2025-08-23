@@ -321,12 +321,18 @@ def test_process_edit_task_batched_article_section(monkeypatch):
     )
 
     async def mock_edit_article_section_structured_batched(
-        article_title, section_title, language="en", progress_callback=None, batch_size=5
+        article_title,
+        section_title,
+        language="en",
+        progress_callback=None,
+        batch_size=5,
     ):
         return [ParagraphResult(before="baz", after="qux", status="CHANGED")]
 
     mock_editor = MagicMock()
-    mock_editor.edit_article_section_structured_batched = mock_edit_article_section_structured_batched
+    mock_editor.edit_article_section_structured_batched = (
+        mock_edit_article_section_structured_batched
+    )
     monkeypatch.setattr(
         "services.tasks.edit_tasks.WikiEditor", lambda **kwargs: mock_editor
     )
@@ -378,7 +384,9 @@ def test_process_edit_task_batched_handles_exception(monkeypatch):
     )
 
     mock_editor = MagicMock()
-    mock_editor.edit_article_section_structured_batched.side_effect = RuntimeError("batched fail")
+    mock_editor.edit_article_section_structured_batched.side_effect = RuntimeError(
+        "batched fail"
+    )
     monkeypatch.setattr(
         "services.tasks.edit_tasks.WikiEditor", lambda **kwargs: mock_editor
     )
@@ -459,7 +467,9 @@ def test_process_edit_task_batched_invalid_arguments(monkeypatch):
     )
 
     assert "error" in result
-    assert "article_title and section_title must be provided as strings" in result["error"]
+    assert (
+        "article_title and section_title must be provided as strings" in result["error"]
+    )
 
 
 @pytest.mark.django_db
@@ -509,4 +519,3 @@ def test_process_edit_task_enhanced_progress_callback(monkeypatch):
 
     assert isinstance(result, dict)
     assert "paragraphs" in result
-

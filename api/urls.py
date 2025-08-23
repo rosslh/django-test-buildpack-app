@@ -8,7 +8,7 @@ from api.views import (
     SectionHeadingsView,
 )
 
-app_name = 'api'
+app_name = "api"
 
 urlpatterns = [
     path("edit/<str:editing_mode>", EditView.as_view(), name="edit"),

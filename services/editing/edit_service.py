@@ -261,8 +261,13 @@ class WikiEditor:
             return []
 
         try:
-            paragraph_results = await self.orchestrator.orchestrate_edit_structured_batched(
-                text, self.paragraph_processor, enhanced_progress_callback, batch_size
+            paragraph_results = (
+                await self.orchestrator.orchestrate_edit_structured_batched(
+                    text,
+                    self.paragraph_processor,
+                    enhanced_progress_callback,
+                    batch_size,
+                )
             )
         except Exception as e:
             # Return all paragraphs as unchanged - same error handling as regular method

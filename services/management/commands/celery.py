@@ -12,7 +12,10 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            "command", nargs="?", default="worker", help="Celery command (default: worker)"
+            "command",
+            nargs="?",
+            default="worker",
+            help="Celery command (default: worker)",
         )
         parser.add_argument(
             "--concurrency",
@@ -44,9 +47,7 @@ class Command(BaseCommand):
         celery_cmd = self._build_celery_command(options)
 
         # Display the command being executed
-        self.stdout.write(
-            self.style.SUCCESS(f"Executing: {' '.join(celery_cmd)}")
-        )
+        self.stdout.write(self.style.SUCCESS(f"Executing: {' '.join(celery_cmd)}"))
 
         # Execute the celery command
         os.execvp(celery_cmd[0], celery_cmd)

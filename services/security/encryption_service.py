@@ -13,7 +13,7 @@ class EncryptionService:
 
     def __init__(self):
         """Initialize encryption service with key from environment."""
-        key = os.environ.get('CELERY_ENCRYPTION_KEY')
+        key = os.environ.get("CELERY_ENCRYPTION_KEY")
         if not key:
             raise ValueError("CELERY_ENCRYPTION_KEY environment variable not set")
 
@@ -21,7 +21,7 @@ class EncryptionService:
         if len(key) == 44:  # Base64-encoded Fernet key
             self.fernet = Fernet(key.encode())
         else:  # Raw key - pad/truncate to 32 bytes and encode
-            padded_key = key.encode()[:32].ljust(32, b'\0')
+            padded_key = key.encode()[:32].ljust(32, b"\0")
             encoded_key = base64.urlsafe_b64encode(padded_key)
             self.fernet = Fernet(encoded_key)
 
@@ -50,4 +50,3 @@ class EncryptionService:
         decrypted_bytes = self.fernet.decrypt(encrypted.encode())
         json_data = decrypted_bytes.decode()
         return json.loads(json_data)
-

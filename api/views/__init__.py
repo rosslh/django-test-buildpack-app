@@ -14,11 +14,11 @@ from rest_framework import status
 
 class HealthCheckView(APIView):
     """Simple health check endpoint for the API."""
-    
+
     def get(self, request):
         return Response(
             {"status": "healthy", "message": "EditEngine API is running"},
-            status=status.HTTP_200_OK
+            status=status.HTTP_200_OK,
         )
 
 

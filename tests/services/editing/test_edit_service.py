@@ -522,7 +522,10 @@ class TestWikiEditorBatched:
         assert len(results) == 2
         assert results == expected_results
         mock_orchestrate.assert_called_once_with(
-            text, wiki_editor.paragraph_processor, enhanced_progress_callback, batch_size
+            text,
+            wiki_editor.paragraph_processor,
+            enhanced_progress_callback,
+            batch_size,
         )
 
     @pytest.mark.asyncio
@@ -535,7 +538,9 @@ class TestWikiEditorBatched:
         assert results == []
 
     @pytest.mark.asyncio
-    async def test_edit_wikitext_structured_batched_exception_handling(self, wiki_editor):
+    async def test_edit_wikitext_structured_batched_exception_handling(
+        self, wiki_editor
+    ):
         """Test batched structured edit exception handling."""
         # Setup
         text = "Test paragraph"
@@ -563,7 +568,9 @@ class TestWikiEditorBatched:
         # Error is sanitized so we just check it contains error message
 
     @pytest.mark.asyncio
-    async def test_edit_wikitext_structured_batched_large_document_error(self, wiki_editor):
+    async def test_edit_wikitext_structured_batched_large_document_error(
+        self, wiki_editor
+    ):
         """Test batched structured edit with large document error handling."""
         # Setup
         text = "Test paragraph"
@@ -590,7 +597,10 @@ class TestWikiEditorBatched:
         # Verify large document error handling
         assert len(results) == 1
         assert results[0].status == "ERRORED"
-        assert "Batched processing failed for large document (101 items)" in results[0].status_details
+        assert (
+            "Batched processing failed for large document (101 items)"
+            in results[0].status_details
+        )
 
     @pytest.mark.asyncio
     async def test_edit_wikitext_structured_batched_fallback_error(self, wiki_editor):
@@ -640,29 +650,39 @@ class TestWikiEditorBatched:
             ),
         ]
 
-        with patch.object(
-            wiki_editor, "edit_wikitext_structured_batched"
-        ) as mock_edit:
+        with patch.object(wiki_editor, "edit_wikitext_structured_batched") as mock_edit:
             mock_edit.return_value = expected_results
 
             with patch("services.editing.edit_service.WikipediaAPI") as mock_api_class:
                 mock_api = mock_api_class.return_value
-                mock_api.get_article_wikitext = AsyncMock(return_value="Full article content")
+                mock_api.get_article_wikitext = AsyncMock(
+                    return_value="Full article content"
+                )
 
-                with patch("services.utils.wiki_utils.extract_section_content") as mock_extract:
+                with patch(
+                    "services.utils.wiki_utils.extract_section_content"
+                ) as mock_extract:
                     mock_extract.return_value = "Section content"
 
                     # Execute
                     results = await wiki_editor.edit_article_section_structured_batched(
-                        article_title, section_title, language, enhanced_progress_callback, batch_size
+                        article_title,
+                        section_title,
+                        language,
+                        enhanced_progress_callback,
+                        batch_size,
                     )
 
         # Verify
         assert results == expected_results
-        mock_edit.assert_called_once_with("Section content", enhanced_progress_callback, batch_size)
+        mock_edit.assert_called_once_with(
+            "Section content", enhanced_progress_callback, batch_size
+        )
 
     @pytest.mark.asyncio
-    async def test_edit_article_section_structured_batched_empty_title(self, wiki_editor):
+    async def test_edit_article_section_structured_batched_empty_title(
+        self, wiki_editor
+    ):
         """Test batched structured edit with empty article title."""
         with pytest.raises(ValueError, match="Article title cannot be empty"):
             await wiki_editor.edit_article_section_structured_batched(
@@ -670,7 +690,9 @@ class TestWikiEditorBatched:
             )
 
     @pytest.mark.asyncio
-    async def test_edit_article_section_structured_batched_empty_section(self, wiki_editor):
+    async def test_edit_article_section_structured_batched_empty_section(
+        self, wiki_editor
+    ):
         """Test batched structured edit with empty section title."""
         with pytest.raises(ValueError, match="Section title cannot be empty"):
             await wiki_editor.edit_article_section_structured_batched(
@@ -678,7 +700,9 @@ class TestWikiEditorBatched:
             )
 
     @pytest.mark.asyncio
-    async def test_edit_article_section_structured_batched_section_not_found(self, wiki_editor):
+    async def test_edit_article_section_structured_batched_section_not_found(
+        self, wiki_editor
+    ):
         """Test batched structured edit when section is not found."""
         # Setup
         article_title = "Test Article"
@@ -686,13 +710,19 @@ class TestWikiEditorBatched:
 
         with patch("services.editing.edit_service.WikipediaAPI") as mock_api_class:
             mock_api = mock_api_class.return_value
-            mock_api.get_article_wikitext = AsyncMock(return_value="Full article content")
+            mock_api.get_article_wikitext = AsyncMock(
+                return_value="Full article content"
+            )
 
-            with patch("services.utils.wiki_utils.extract_section_content") as mock_extract:
+            with patch(
+                "services.utils.wiki_utils.extract_section_content"
+            ) as mock_extract:
                 mock_extract.return_value = None
 
                 # Execute & Verify
-                with pytest.raises(ValueError, match="Section 'Nonexistent Section' not found"):
+                with pytest.raises(
+                    ValueError, match="Section 'Nonexistent Section' not found"
+                ):
                     await wiki_editor.edit_article_section_structured_batched(
                         article_title, section_title, "en", None, 2
                     )
