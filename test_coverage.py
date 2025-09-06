@@ -9,7 +9,11 @@ import tempfile
 from pathlib import Path
 from typing import List, Tuple
 
+from dotenv import load_dotenv
 from file_utils import filter_files_by_patterns
+
+# Load test environment variables
+load_dotenv(".env.test")
 
 # Multiple code roots for the new three-tier architecture
 CODE_ROOTS = [Path("api"), Path("services"), Path("data")]
@@ -163,9 +167,11 @@ def run_individual_coverage_test(test_file, source_file):
     with tempfile.NamedTemporaryFile(suffix=".coverage") as cov_file:
         env = os.environ.copy()
         env["DJANGO_SETTINGS_MODULE"] = "EditEngine.settings"
+        env["DJANGO_CONFIGURATION"] = "Development"  # Ensure Django configuration is set
         env["COVERAGE_FILE"] = cov_file.name
 
         cov_run_cmd = (
+            f"DJANGO_CONFIGURATION=Development DJANGO_SETTINGS_MODULE=EditEngine.settings "
             f"python3 -m coverage run --data-file='{cov_file.name}' "
             f"--source='.' --omit='*/migrations/*,*/tests/*' "
             f"-m pytest -c pytest.coverage.ini --cov-context=test {test_file}"

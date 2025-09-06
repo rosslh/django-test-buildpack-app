@@ -8,6 +8,7 @@ os.environ.setdefault("DJANGO_CONFIGURATION", "Development")
 
 # Setup django-configurations
 import configurations
+
 configurations.setup()
 
 # Create the Celery app

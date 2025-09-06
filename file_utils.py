@@ -118,15 +118,19 @@ def get_all_project_files(include_tests=True, include_code=True):
     all_files = []
 
     if include_code:
-        code_files = glob.glob("edit/**/*.py", recursive=True) + glob.glob(
-            "EditEngine/**/*.py", recursive=True
+        code_files = (
+            glob.glob("EditEngine/**/*.py", recursive=True)
+            + glob.glob("api/**/*.py", recursive=True)
+            + glob.glob("data/**/*.py", recursive=True)
+            + glob.glob("services/**/*.py", recursive=True)
+            + glob.glob(
+                "*.py", recursive=False
+            )  # Root level files like manage.py, commands.py
         )
         all_files.extend(code_files)
 
     if include_tests:
-        test_files = glob.glob("edit/tests/**/*.py", recursive=True) + glob.glob(
-            "tests/**/*.py", recursive=True
-        )
+        test_files = glob.glob("tests/**/*.py", recursive=True)
         all_files.extend(test_files)
 
     return all_files
