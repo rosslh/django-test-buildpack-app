@@ -1,0 +1,25 @@
+.content {
+  padding: 0;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-relaxed);
+}
+
+.intro {
+  margin-bottom: var(--spacing-16);
+  color: var(--text-color-secondary);
+}
+
+.stepsList {
+  margin: 0 0 var(--spacing-20) 0;
+  padding-left: var(--spacing-20);
+  list-style: decimal;
+}
+
+.step {
+  margin-bottom: var(--spacing-12);
+  color: var(--text-color-primary);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}

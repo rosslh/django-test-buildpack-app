@@ -1,0 +1,94 @@
+@use "primitives.scss";
+
+// Semantic Design Tokens
+// Only includes tokens that are actually used in the codebase
+
+:root {
+  // === SURFACES ===
+  --surface-primary: var(--color-white); // Main content backgrounds
+  --surface-secondary: var(--color-gray-100); // Page backgrounds
+  --surface-tertiary: var(
+    --color-gray-200
+  ); // Section backgrounds, disabled states
+
+  // === TEXT ===
+  --text-color-primary: var(--color-gray-900); // Primary text, headings
+  --text-color-secondary: var(
+    --color-gray-700
+  ); // Labels, interactive text, secondary content
+  --text-color-muted: var(
+    --color-gray-600
+  ); // Descriptions, subtitles, help text
+  --text-color-subtle: var(
+    --color-gray-400
+  ); // Placeholder text, very subtle text
+  --text-color-on-primary: var(--color-white); // Text on dark backgrounds
+  --text-color-warning: var(--color-amber-900); // Warning text
+
+  // === BORDERS ===
+  --border-default: var(--color-gray-300);
+  --border-warning: var(--color-amber-400);
+
+  // === INTERACTIVE ===
+  --interactive-focus: var(--color-gray-500); // Focus rings and states
+  --interactive-primary-bg: var(--color-gray-800); // Primary button backgrounds
+  --interactive-primary-bg-hover: var(--color-gray-900); // Primary button hover
+  --interactive-secondary-bg: var(
+    --surface-primary
+  ); // Secondary button backgrounds
+  --interactive-secondary-bg-hover: var(
+    --color-gray-100
+  ); // Secondary button hover
+  --interactive-hover-bg: var(
+    --color-gray-100
+  ); // General interactive hover background
+  --interactive-accent-bg: var(
+    --color-gray-700
+  ); // Success/accent button backgrounds
+  --interactive-accent-bg-hover: var(
+    --color-gray-800
+  ); // Success/accent button hover
+
+  // === TYPOGRAPHY ===
+  --font-family-primary: var(--font-family-sans);
+  --font-family-code: var(--font-family-mono);
+
+  --font-weight-normal: var(--font-weight-400);
+  --font-weight-medium: var(--font-weight-600);
+  --font-weight-semibold: var(--font-weight-600);
+
+  --font-size-xsmall: var(--pixels-12);
+  --font-size-small: 14px;
+  --font-size-normal: var(--pixels-16);
+  --font-size-medium: var(--pixels-16);
+  --font-size-large: var(--pixels-24);
+  --font-size-xlarge: 30px;
+
+  // === SPACING ===
+  --spacing-4: var(--pixels-4);
+  --spacing-8: var(--pixels-8);
+  --spacing-12: var(--pixels-12);
+  --spacing-16: var(--pixels-16);
+  --spacing-20: var(--pixels-20);
+  --spacing-24: var(--pixels-24);
+  --spacing-32: var(--pixels-32);
+  --spacing-40: var(--pixels-40);
+  --spacing-48: var(--pixels-48);
+  --spacing-64: var(--pixels-64);
+
+  // === BORDER RADIUS ===
+  --radius-4: var(--pixels-4);
+  --radius-sm: var(--pixels-4);
+  --radius-lg: var(--pixels-8);
+  --radius-xl: var(--pixels-12);
+  --radius-full: var(--pixels-full);
+
+  // === LINE HEIGHT ===
+  --line-height-none: var(--line-height-16);
+  --line-height-normal: var(--line-height-24);
+  --line-height-relaxed: var(--line-height-26);
+
+  // === STATES ===
+  --surface-warning: var(--color-amber-100);
+  --surface-warning-hover: var(--color-amber-200);
+}

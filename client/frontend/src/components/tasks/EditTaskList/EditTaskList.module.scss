@@ -1,0 +1,111 @@
+@use "../../../styles/semantic-tokens.scss";
+
+.editTaskList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-16);
+  flex: 1;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--spacing-20);
+  padding: var(--spacing-16);
+  background-color: var(--surface-primary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-default);
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+
+  label {
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-color-secondary);
+  }
+}
+
+.filterSelect {
+  padding: var(--spacing-12);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-small);
+  background-color: var(--surface-primary);
+  color: var(--text-color-primary);
+  min-width: 120px;
+
+  &:focus {
+    outline: none;
+    border-color: var(--interactive-focus);
+  }
+}
+
+.clearFiltersButton {
+  align-self: flex-end;
+  padding: var(--spacing-12) var(--spacing-16);
+  background: none;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  color: var(--text-color-secondary);
+  font-size: var(--font-size-small);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--surface-tertiary);
+    color: var(--text-color-primary);
+  }
+}
+
+.resultsInfo {
+  font-size: var(--font-size-small);
+  color: var(--text-color-secondary);
+  margin-left: var(--spacing-8);
+  margin-top: var(--spacing-16);
+  margin-bottom: var(--spacing-4);
+  font-weight: var(--font-weight-medium);
+}
+
+.taskCards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-16);
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-16);
+  padding: var(--spacing-16);
+}
+
+.paginationButton {
+  padding: var(--spacing-12) var(--spacing-16);
+  background-color: var(--surface-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  color: var(--text-color-primary);
+  font-size: var(--font-size-small);
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background-color: var(--surface-secondary);
+    border-color: var(--interactive-focus);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.paginationInfo {
+  font-size: var(--font-size-small);
+  color: var(--text-color-secondary);
+  margin: 0 var(--spacing-12);
+}

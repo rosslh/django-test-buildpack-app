@@ -16,13 +16,16 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
+from django.contrib.staticfiles import views as staticfiles_views
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.urls import path, include, re_path
 from .views import healthz, home
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularSwaggerView,
     SpectacularRedocView,
 )
+from client.views import index_view
 
 
 def health_check(request):
@@ -43,5 +46,23 @@ urlpatterns = [
     ),
     path("api/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
     path("healthz/", healthz, name="healthz"),
-    path("", home, name="home"),
 ]
+
+# Always serve static files for local development/testing
+urlpatterns += staticfiles_urlpatterns()
+
+# Static file serving for assets not handled by WhiteNoise
+urlpatterns.append(
+    re_path(
+        r"^(?!api/)(?P<path>.*\.(?:png|svg|jpg|jpeg|gif|ico|js|css))$",
+        staticfiles_views.serve,
+    )
+)
+
+# Add specific routes for the SPA
+# Note: Using re_path with explicit pattern to avoid redirect issues on Toolforge
+urlpatterns.extend([
+    path('', index_view, name='home'),  # Root path
+    # Only catch paths that don't start with api/, admin/, health/, or static files
+    re_path(r'^(?!api/|admin/|health/|static/).*$', index_view, name='index'),
+])

@@ -1,0 +1,87 @@
+@use "../../../styles/semantic-tokens.scss";
+@use "../../../styles/mixins.scss";
+
+.sidebarHeader {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-16);
+}
+
+.headerTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.subtitle {
+  font-size: var(--font-size-medium);
+  color: var(--text-color-muted);
+  line-height: var(--line-height-normal);
+  margin: 0;
+  width: 100%;
+}
+
+
+.modelSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+}
+
+.taskInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.modelLabel {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color-secondary);
+}
+
+.apiStatus {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  padding: var(--spacing-8) var(--spacing-12);
+  background-color: var(--surface-secondary);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-default);
+  cursor: pointer;
+  width: 100%;
+
+  &:hover {
+    background-color: var(--interactive-hover-bg);
+  }
+}
+
+.apiProvider {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color-secondary);
+}
+
+.createdDate {
+  font-size: var(--font-size-small);
+  color: var(--text-color-secondary);
+}
+
+.apiWarning {
+  padding: var(--spacing-8) var(--spacing-12);
+  background-color: var(--surface-warning);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-warning);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color-warning);
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--surface-warning-hover);
+  }
+}

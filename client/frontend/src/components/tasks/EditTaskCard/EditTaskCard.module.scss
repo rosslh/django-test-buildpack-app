@@ -1,0 +1,148 @@
+@use "../../../styles/semantic-tokens.scss";
+
+.editTaskCard {
+  display: block;
+  padding: var(--spacing-16);
+  background-color: var(--surface-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: inherit;
+
+  &:hover {
+    border-color: var(--interactive-focus);
+    background-color: var(--surface-secondary);
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-16);
+}
+
+.taskInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.articleInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  margin-bottom: var(--spacing-8);
+  flex-wrap: wrap;
+}
+
+.articleTitle {
+  color: var(--text-color-primary);
+}
+
+.sectionTitle {
+  color: var(--text-color-secondary);
+}
+
+.directContent {
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color-secondary);
+  font-size: var(--font-size-small);
+  font-style: italic;
+}
+
+.separator {
+  color: var(--text-color-muted);
+  font-size: var(--font-size-small);
+}
+
+.metadata {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  font-size: var(--font-size-small);
+  color: var(--text-color-secondary);
+  flex-wrap: wrap;
+}
+
+.editingMode {
+  background-color: var(--surface-tertiary);
+  padding: var(--spacing-4) var(--spacing-12);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xsmall);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  color: var(--text-color-primary);
+}
+
+.date {
+  font-size: var(--font-size-xsmall);
+}
+
+.provider {
+  font-size: var(--font-size-xsmall);
+  color: var(--text-color-muted);
+}
+
+.statusSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-8);
+}
+
+.statusBadge {
+  padding: var(--spacing-4) var(--spacing-12);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xsmall);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+}
+
+.statusSuccess {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.statusFailure {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.statusPending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.statusStarted {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.statusRetry {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+.statusRevoked {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+.changesCount {
+  font-size: var(--font-size-xsmall);
+  color: var(--text-color-secondary);
+  text-align: right;
+}
+
+.cardFooter {
+  margin-top: var(--spacing-12);
+  padding-top: var(--spacing-12);
+  border-top: 1px solid var(--border-default);
+}
+
+.completedAt {
+  font-size: var(--font-size-xsmall);
+  color: var(--text-color-muted);
+}

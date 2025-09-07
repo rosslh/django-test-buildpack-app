@@ -74,9 +74,12 @@ class Base(Configuration):
         "django.contrib.staticfiles",
         "rest_framework",
         "drf_spectacular",
+        "django_vite",
+        "corsheaders",
         "api",
         "services",
         "data",
+        "client",
     ]
 
     MIDDLEWARE = [
@@ -87,6 +90,8 @@ class Base(Configuration):
         # after Django's `SecurityMiddleware` so that security redirects are still performed.
         # See: https://whitenoise.readthedocs.io
         "whitenoise.middleware.WhiteNoiseMiddleware",
+        "csp.middleware.CSPMiddleware",
+        "corsheaders.middleware.CorsMiddleware",
         "django.middleware.common.CommonMiddleware",
         "django.middleware.csrf.CsrfViewMiddleware",  # Required by admin
         "django.contrib.auth.middleware.AuthenticationMiddleware",  # Required by admin
@@ -206,10 +211,91 @@ class Base(Configuration):
         auth = f":{self.REDIS_PASSWORD}@" if self.REDIS_PASSWORD else ""
         return f"redis://{auth}{self.REDIS_HOST}:{self.REDIS_PORT}/{self.REDIS_DB}"
 
+    # CORS Settings
+    CORS_ALLOWED_ORIGINS = [
+        "https://editengine.toolforge.org",
+        "http://localhost:5173",  # Vite dev server
+        "http://localhost:5174",  # Alternative Vite port
+        "http://127.0.0.1:5173",
+        "http://127.0.0.1:5174",
+    ]
+
+    # Additional CORS settings
+    CORS_ALLOW_CREDENTIALS = True
+    CORS_ALLOW_METHODS = [
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE",
+        "OPTIONS",
+    ]
+    CORS_ALLOW_HEADERS = [
+        "accept",
+        "accept-encoding",
+        "authorization",
+        "content-type",
+        "dnt",
+        "origin",
+        "user-agent",
+        "x-csrftoken",
+        "x-requested-with",
+    ]
+
+    # Vite Configuration
+    VITE_APP_DIR = os.path.join(BASE_DIR, "client", "frontend")
+
+    # Required by django-vite 2.x
+    DJANGO_VITE_ASSETS_PATH = os.path.join(VITE_APP_DIR, "dist")
+
+    # Add Vite build directory to static files
+    STATICFILES_DIRS = [
+        os.path.join(VITE_APP_DIR, "dist"),
+    ]
+
+    # Content Security Policy
+    CSP_DEFAULT_SRC = ("'self'",)
+    CSP_SCRIPT_SRC = (
+        "'self'",
+        "'unsafe-inline'",  # Required for Vite HMR in development
+        "'unsafe-eval'",  # Only allow eval in development
+    )
+    CSP_STYLE_SRC = (
+        "'self'",
+        "'unsafe-inline'",  # Required for inline styles
+    )
+    CSP_IMG_SRC = (
+        "'self'",
+        "data:",  # Allow data URIs for images
+        "https:",  # Allow images from HTTPS sources
+    )
+    CSP_FONT_SRC = ("'self'",)
+    CSP_CONNECT_SRC = (
+        "'self'",
+        "ws://localhost:5173",  # Vite WebSocket in development
+        "http://localhost:5173",  # Vite dev server
+    )
+    CSP_FRAME_ANCESTORS = ("'none'",)  # Prevent clickjacking
+    CSP_BASE_URI = ("'self'",)
+    CSP_FORM_ACTION = ("'self'",)
+
 
 class Development(Base):
     DEBUG = True
     ALLOWED_HOSTS = [".localhost", "127.0.0.1", "[::1]", ".toolforge.org"]
+    
+    # Django-Vite settings for development
+    DJANGO_VITE_DEV_MODE = True
+    DJANGO_VITE_DEV_SERVER_HOST = "localhost"
+    DJANGO_VITE_DEV_SERVER_PORT = 5173
+    
+    DJANGO_VITE = {
+        "default": {
+            "dev_mode": True,
+            "dev_server_host": "localhost",
+            "dev_server_port": 5173,
+        }
+    }
 
 
 class Staging(Base):
@@ -218,11 +304,42 @@ class Staging(Base):
     ALLOWED_HOSTS = [
         ".toolforge.org",
     ]
+    
+    # Django-Vite settings for staging (production mode)
+    DJANGO_VITE_DEV_MODE = False
+    VITE_APP_DIR = os.path.join(Base.BASE_DIR, "client", "frontend")
+    DJANGO_VITE_MANIFEST_PATH = os.path.join(VITE_APP_DIR, "dist", "manifest.json")
+    
+    DJANGO_VITE = {
+        "default": {
+            "dev_mode": False,
+            "manifest_path": os.path.join(VITE_APP_DIR, "dist", "manifest.json"),
+        }
+    }
 
 
 class Production(Base):
     DEBUG = False
     ALLOWED_HOSTS = [".toolforge.org"]
+
+    # Django-Vite settings for production
+    DJANGO_VITE_DEV_MODE = False
+    VITE_APP_DIR = os.path.join(Base.BASE_DIR, "client", "frontend")
+    DJANGO_VITE_MANIFEST_PATH = os.path.join(VITE_APP_DIR, "dist", "manifest.json")
+    
+    DJANGO_VITE = {
+        "default": {
+            "dev_mode": False,
+            "manifest_path": os.path.join(VITE_APP_DIR, "dist", "manifest.json"),
+        }
+    }
+
+    # Production CSP settings (no unsafe-eval)
+    CSP_SCRIPT_SRC = (
+        "'self'",
+        "'unsafe-inline'",  # Still required for some inline scripts
+    )
+    CSP_CONNECT_SRC = ("'self'",)  # No dev server in production
 
     def __init__(self):
         print("[DEBUG] Loading Production configuration")

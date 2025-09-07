@@ -1,0 +1,64 @@
+@use '../../../styles/mixins.scss';
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-16);
+}
+
+.statusRow,
+.detailsRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+}
+
+.label {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-700);
+}
+
+.status {
+  padding: var(--spacing-8) var(--spacing-12);
+  border-radius: var(--radius-4);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+
+  &.changed {
+    background-color: var(--color-green-100);
+    color: var(--color-green-700);
+  }
+
+  &.unchanged {
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-700);
+  }
+
+  &.rejected {
+    background-color: var(--color-red-100);
+    color: var(--color-red-700);
+  }
+
+  &.skipped {
+    background-color: var(--color-amber-100);
+    color: var(--color-amber-700);
+  }
+
+  &.errored {
+    background-color: var(--color-red-100);
+    color: var(--color-red-700);
+  }
+}
+
+.details {
+  font-size: var(--font-size-normal);
+  line-height: var(--line-height-normal);
+  color: var(--color-gray-900);
+  padding: var(--spacing-12);
+  background-color: var(--color-gray-50);
+  border-radius: var(--radius-4);
+  border: 1px solid var(--color-gray-200);
+}

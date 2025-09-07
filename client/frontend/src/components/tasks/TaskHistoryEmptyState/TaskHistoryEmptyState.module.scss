@@ -1,0 +1,49 @@
+@use '../../../styles/semantic-tokens.scss';
+
+.emptyState {
+  display: flex;
+  justify-content: center;
+  padding: var(--spacing-64) var(--spacing-32);
+}
+
+.content {
+  text-align: center;
+  max-width: 320px;
+}
+
+.icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--spacing-16);
+}
+
+.title {
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color-primary);
+  margin: 0 0 var(--spacing-12) 0;
+}
+
+.description {
+  font-size: var(--font-size-medium);
+  color: var(--text-color-secondary);
+  line-height: 1.5;
+  margin: 0 0 var(--spacing-24) 0;
+}
+
+.primaryAction {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-12) var(--spacing-20);
+  background-color: var(--interactive-primary);
+  color: var(--text-color-inverse);
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-medium);
+
+  &:hover {
+    background-color: var(--interactive-primary-hover);
+    text-decoration: none;
+  }
+}

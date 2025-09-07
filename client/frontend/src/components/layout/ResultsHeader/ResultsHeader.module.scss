@@ -1,0 +1,37 @@
+@use '../../../styles/semantic-tokens.scss';
+@use '../../../styles/mixins.scss';
+
+.resultsHeader {
+  @include mixins.card;
+  padding: var(--spacing-24);
+  border-radius: var(--radius-xl);
+}
+
+.resultsTitle {
+  font-size: var(--font-size-medium);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color-primary);
+  margin-bottom: var(--spacing-8);
+}
+
+.resultsLink {
+  color: var(--text-color-primary);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--text-color-primary);
+    text-decoration: underline;
+  }
+
+  &:focus {
+    @include mixins.focus-link;
+  }
+}
+
+.resultsDescription {
+  color: var(--text-color-muted);
+}
+
+.sectionTitle {
+  // Add specific styles for section title if needed
+}

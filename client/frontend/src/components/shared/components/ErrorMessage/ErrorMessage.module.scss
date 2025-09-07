@@ -1,0 +1,35 @@
+@use '../../../../styles/semantic-tokens.scss';
+@use '../../../../styles/mixins.scss';
+
+.error {
+  background-color: var(--surface-primary);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-16);
+
+}
+
+.errorContent {
+  display: flex;
+  align-items: center;
+}
+
+.errorIcon {
+  flex-shrink: 0;
+}
+
+.errorText {
+  margin-left: var(--spacing-12);
+}
+
+.errorTitle {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-normal);
+  color: var(--text-color-primary);
+}
+
+.errorMessage {
+  margin-top: var(--spacing-4);
+  font-size: var(--font-size-small);
+  color: var(--text-color-primary);
+}

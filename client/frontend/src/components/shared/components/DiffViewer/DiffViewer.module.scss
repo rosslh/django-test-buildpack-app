@@ -1,0 +1,142 @@
+@use '../../../../styles/semantic-tokens.scss';
+@use '../../../../styles/mixins.scss';
+
+.container {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl);
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-12);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color-primary);
+}
+
+.selectedTitle {
+  &.titleContainer {
+    color: var(--text-color-secondary);
+    font-weight: var(--font-weight-semibold);
+  }
+}
+
+// Base styles
+.titleText {
+  font-size: var(--font-size-small);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+}
+
+.statusButton {
+  flex-shrink: 0;
+}
+
+.splitViewContainer {
+  position: relative;
+  display: flex;
+
+  tr:first-child pre {
+    padding: var(--spacing-4);
+  }
+}
+
+// Click overlays for left and right sides (transparent but clickable)
+// Note: For full accessibility, these should be buttons or have tabindex/keyboard handlers
+.clickOverlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  z-index: 10;
+  cursor: pointer;
+  background: transparent;
+
+  &:focus {
+    @include mixins.focus-ring-inset;
+  }
+
+}
+
+.leftOverlay {
+  left: 0;
+}
+
+.rightOverlay {
+  right: 0;
+}
+
+// Selection indicator
+.selectionIndicator {
+  margin-left: var(--spacing-8);
+  flex-shrink: 0;
+}
+
+// Selection states - unified blue theme
+.selectedBefore,
+.selectedAfter {
+  // Selected title styling
+  .selectedTitle {
+    &.titleContainer {
+      color: var(--color-blue-600);
+      font-weight: var(--font-weight-semibold);
+    }
+  }
+
+  // Selected icon styling
+  .selectionIndicator {
+    color: var(--color-blue-600);
+  }
+}
+
+// Selection background and border styling
+.selectedBefore {
+  .splitViewContainer {
+    background: linear-gradient(to right, var(--color-blue-50) 50%, var(--color-white) 50%);
+    box-shadow: inset 3px 0 0 var(--color-blue-600);
+  }
+
+  // Only allow hover on the unselected (right) side
+  .leftOverlay:hover {
+    background: transparent;
+  }
+
+  .rightOverlay:hover ~ .splitViewContainer,
+  .splitViewContainer:has(.rightOverlay:hover) {
+    background: linear-gradient(to right, var(--color-blue-50) 50%, var(--interactive-hover-bg) 50%);
+  }
+}
+
+.selectedAfter {
+  .splitViewContainer {
+    background: linear-gradient(to left, var(--color-blue-50) 50%, var(--color-white) 50%);
+    box-shadow: inset -3px 0 0 var(--color-blue-600);
+  }
+
+  // Only allow hover on the unselected (left) side
+  .leftOverlay:hover ~ .splitViewContainer,
+  .splitViewContainer:has(.leftOverlay:hover) {
+    background: linear-gradient(to left, var(--color-blue-50) 50%, var(--interactive-hover-bg) 50%);
+  }
+
+  .rightOverlay:hover {
+    background: transparent;
+  }
+}
+
+// When no selection is made, both sides can be hovered
+.container:not(.selectedBefore):not(.selectedAfter) {
+  .leftOverlay:hover ~ .splitViewContainer,
+  .splitViewContainer:has(.leftOverlay:hover) {
+    background: linear-gradient(to right, var(--interactive-hover-bg) 50%, var(--color-white) 50%);
+  }
+  
+  .rightOverlay:hover ~ .splitViewContainer,
+  .splitViewContainer:has(.rightOverlay:hover) {
+    background: linear-gradient(to right, var(--color-white) 50%, var(--interactive-hover-bg) 50%);
+  }
+}

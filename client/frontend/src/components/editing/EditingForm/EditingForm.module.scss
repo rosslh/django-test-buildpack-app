@@ -1,0 +1,112 @@
+@use '../../../styles/semantic-tokens.scss';
+@use '../../../styles/mixins.scss';
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-16);
+}
+
+.inputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+}
+
+.inputLabel {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color-secondary);
+}
+
+.input {
+  @include mixins.input-lg;
+  width: 100%;
+
+  &::placeholder {
+    color: var(--text-color-subtle);
+  }
+}
+
+
+.loadingIcon {
+  margin-left: -var(--spacing-4);
+  margin-right: var(--spacing-8);
+}
+
+.flexCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modeToggle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-12);
+}
+
+.modeToggleLabel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.modeToggleTitle {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color-primary);
+}
+
+.modeToggleDescription {
+  font-size: var(--font-size-small);
+  color: var(--text-color-muted);
+  line-height: var(--line-height-normal);
+}
+
+.modeToggleButtons {
+  display: flex;
+  background-color: var(--surface-tertiary);
+  border-radius: var(--radius-sm);
+  padding: var(--spacing-4);
+  gap: var(--spacing-4);
+}
+
+.modeButton {
+  flex: 1;
+  padding: var(--spacing-8) var(--spacing-12);
+  border-radius: var(--radius-sm);
+  border: none;
+  background-color: transparent;
+  color: var(--text-color-secondary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  white-space: nowrap;
+  text-align: center;
+
+  &:hover:not(:disabled) {
+    background-color: var(--surface-primary);
+    color: var(--text-color-primary);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:focus {
+    @include mixins.focus-ring;
+  }
+}
+
+.modeButtonActive {
+  background-color: var(--surface-primary);
+  color: var(--text-color-primary);
+
+  &:hover:not(:disabled) {
+    background-color: var(--surface-primary);
+    color: var(--text-color-primary);
+  }
+}

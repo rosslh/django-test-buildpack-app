@@ -1,0 +1,50 @@
+.textInput {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  background-color: var(--surface-primary);
+  color: var(--text-color-primary);
+  font-family: var(--font-family-primary);
+
+  &::placeholder {
+    color: var(--text-color-subtle);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--interactive-focus);
+    box-shadow: 0 0 0 1px var(--interactive-focus);
+  }
+
+  &:disabled {
+    background-color: var(--surface-tertiary);
+    color: var(--text-color-subtle);
+    cursor: not-allowed;
+  }
+
+  &.disabled {
+    background-color: var(--surface-tertiary);
+    color: var(--text-color-subtle);
+    cursor: not-allowed;
+  }
+}
+
+// Sizes
+.small {
+  padding: var(--spacing-4) var(--spacing-8);
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-none);
+}
+
+.medium {
+  padding: var(--spacing-8) var(--spacing-12);
+  font-size: var(--font-size-normal);
+  line-height: var(--line-height-normal);
+}
+
+.large {
+  padding: var(--spacing-12) var(--spacing-16);
+  font-size: var(--font-size-medium);
+  line-height: var(--line-height-normal);
+}

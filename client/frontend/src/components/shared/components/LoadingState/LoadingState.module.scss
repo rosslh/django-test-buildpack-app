@@ -1,0 +1,23 @@
+@use "../../../../styles/semantic-tokens.scss";
+@use "../../../../styles/mixins.scss";
+
+.loadingState {
+  text-align: center;
+  padding: var(--spacing-48) 0;
+}
+
+.loadingContent {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-24);
+  font-size: var(--font-size-small);
+  color: var(--text-color-muted);
+  background-color: var(--surface-primary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-default);
+}
+
+.loadingSpinner {
+  margin-left: -var(--spacing-4);
+  margin-right: var(--spacing-12);
+}

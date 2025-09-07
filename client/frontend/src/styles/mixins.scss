@@ -1,0 +1,148 @@
+@use 'semantic-tokens.scss';
+
+// Focus mixins
+@mixin focus-ring {
+  outline: 2px solid var(--interactive-focus);
+  outline-offset: 2px;
+}
+
+@mixin focus-ring-inset {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--interactive-focus);
+}
+
+@mixin focus-ring-inset-subtle {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--interactive-focus);
+  opacity: 0.6;
+}
+
+@mixin focus-link {
+  outline: 2px solid var(--interactive-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+// Button mixins
+@mixin btn-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family-primary);
+  font-weight: var(--font-weight-semibold);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  text-decoration: none;
+
+  &:focus {
+    @include focus-ring-inset;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+@mixin btn-primary {
+  @include btn-base;
+  background-color: var(--interactive-primary-bg);
+  color: var(--text-color-on-primary);
+
+  &:hover:not(:disabled) {
+    background-color: var(--interactive-primary-bg-hover);
+  }
+}
+
+@mixin btn-secondary {
+  @include btn-base;
+  background-color: var(--interactive-secondary-bg);
+  color: var(--text-color-secondary);
+  border: 1px solid var(--border-default);
+
+  &:hover:not(:disabled) {
+    background-color: var(--interactive-secondary-bg-hover);
+  }
+}
+
+@mixin btn-success {
+  @include btn-base;
+  background-color: var(--interactive-accent-bg);
+  color: var(--text-color-on-primary);
+
+  &:hover:not(:disabled) {
+    background-color: var(--interactive-accent-bg-hover);
+  }
+}
+
+@mixin btn-sm {
+  padding: var(--spacing-4) var(--spacing-8);
+  font-size: var(--font-size-small);
+}
+
+@mixin btn-md {
+  padding: var(--spacing-12) var(--spacing-16);
+  font-size: var(--font-size-small);
+}
+
+@mixin btn-lg {
+  padding: var(--spacing-12) var(--spacing-32);
+  font-size: var(--font-size-small);
+}
+
+// Card mixins
+@mixin card {
+  background-color: var(--surface-primary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-default);
+}
+
+@mixin card-hover {
+  @include card;
+}
+
+// Input mixins
+@mixin input-base {
+  width: 100%;
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family-primary);
+
+  &:focus {
+    outline: none;
+    border-color: var(--interactive-focus);
+    box-shadow: 0 0 0 2px var(--interactive-focus);
+    opacity: 0.6;
+  }
+
+  &:disabled {
+    background-color: var(--surface-secondary);
+    cursor: not-allowed;
+  }
+}
+
+@mixin input-lg {
+  @include input-base;
+  padding: var(--spacing-12) var(--spacing-16);
+  font-size: var(--font-size-medium);
+}
+
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Visually hidden mixin
+@mixin visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}

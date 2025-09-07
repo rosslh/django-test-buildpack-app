@@ -1,0 +1,77 @@
+@use '../../../../styles/semantic-tokens.scss';
+
+.progressDisplay {
+  padding: var(--spacing-24);
+  background: var(--surface-secondary);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-default);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-16);
+}
+
+.title {
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color-primary);
+  margin: 0;
+}
+
+.percentage {
+  font-size: var(--font-size-large);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color-primary);
+}
+
+.progressBar {
+  width: 100%;
+  height: 8px;
+  background: var(--surface-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-bottom: var(--spacing-24);
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--color-blue-500);
+  border-radius: var(--radius-full);
+  transition: width 0.3s ease;
+}
+
+.phaseBreakdown {
+  margin-bottom: var(--spacing-16);
+}
+
+.phaseTitle {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color-secondary);
+  margin: 0 0 var(--spacing-12) 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.phases {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-8);
+}
+
+.phase {
+  // No additional styling needed - Badge component handles it
+}
+
+.summary {
+  padding-top: var(--spacing-16);
+  border-top: 1px solid var(--border-default);
+}
+
+.summaryText {
+  font-size: var(--font-size-small);
+  color: var(--text-color-secondary);
+}

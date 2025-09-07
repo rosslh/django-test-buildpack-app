@@ -1,0 +1,26 @@
+@use '../../../styles/semantic-tokens.scss';
+@use '../../../styles/mixins.scss';
+
+.app {
+  min-height: 100vh;
+  background: var(--surface-secondary);
+  display: flex;
+  flex-direction: column;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  margin-top: 56px; // Height of navbar
+  min-height: calc(100vh - 56px);
+}
+
+
+
+
+// Responsive design
+@media (max-width: 768px) {
+  .app {
+    flex-direction: column;
+  }
+}

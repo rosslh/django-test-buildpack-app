@@ -1,0 +1,7 @@
+.resultsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-24);
+  padding: 0; // Virtuoso applies its own padding
+  margin: 0; // Reset default list margin
+}

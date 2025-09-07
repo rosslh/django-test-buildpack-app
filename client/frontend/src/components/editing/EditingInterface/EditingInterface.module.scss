@@ -1,0 +1,8 @@
+@use "../../../styles/semantic-tokens.scss";
+
+.editingInterface {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  background-color: var(--surface-primary);
+}

@@ -46,6 +46,10 @@ def handle_custom_commands():
 
 def main():
     """Run administrative tasks."""
+    # Load environment variables from .env file
+    from dotenv import load_dotenv
+    load_dotenv()
+    
     # Handle custom commands first
     if handle_custom_commands():
         return

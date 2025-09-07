@@ -1,0 +1,25 @@
+@use "../../../styles/semantic-tokens.scss";
+@use "../../../styles/mixins.scss";
+
+.main {
+  flex: 1;
+  height: 100vh;
+  overflow-y: auto;
+  padding: var(--spacing-32);
+  max-width: 1200px;
+  margin: 0 auto;
+  min-width: 0;
+}
+
+.results {
+  margin-top: 0;
+  height: 100%;
+  width: 100%;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .main {
+    padding: var(--spacing-16);
+  }
+}
